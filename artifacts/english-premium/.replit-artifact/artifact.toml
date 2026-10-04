@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "English Premium"
+description = "An interactive English-learning app with guided lessons, vocabulary practice, speaking exercises, progress tracking, and local profile settings."
+version = "1.0.0"
+id = "artifacts/english-premium"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18974
+
+[services.development]
+run = "pnpm --filter @workspace/english-premium run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/english-premium", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/english-premium/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18974"
+BASE_PATH = "/"

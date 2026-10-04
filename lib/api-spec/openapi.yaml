@@ -1,0 +1,70 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+  - name: state
+    description: Health operations
+paths:
+
+  /state:
+    get:
+      operationId: getLearningState
+      tags: [state]
+      summary: Load canonical learning state
+      parameters:
+        - in: header
+          name: x-user-id
+          required: true
+          schema: { type: string, maxLength: 128 }
+      responses:
+        "200": { description: State loaded }
+        "404": { description: No state saved yet }
+        "503": { description: Database is not configured }
+    put:
+      operationId: saveLearningState
+      tags: [state]
+      summary: Save canonical learning state
+      parameters:
+        - in: header
+          name: x-user-id
+          required: true
+          schema: { type: string, maxLength: 128 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { type: object, additionalProperties: true }
+      responses:
+        "200": { description: State saved }
+        "400": { description: Invalid state or user id }
+        "503": { description: Database is not configured }
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
