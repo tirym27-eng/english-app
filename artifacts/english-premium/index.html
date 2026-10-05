@@ -324,6 +324,177 @@ html{scroll-behavior:smooth}body{overflow-x:hidden;background:radial-gradient(ci
 @media(max-width:390px){.pm-lesson-sheet{border-radius:25px 25px 0 0;padding-top:20px}.pm-title{font-size:25px}.pm-outline{width:78px;height:78px}.pm-stage{padding:10px}.pm-stage small{font-size:10px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}}
 </style>
+
+<style id="v57-premium-shell">
+/* V57 — premium live contour system */
+:root{
+  --live-line:rgba(216,255,104,.18);
+  --live-line-strong:rgba(216,255,104,.42);
+  --live-glow:rgba(216,255,104,.08);
+  --live-purple:rgba(123,44,255,.12);
+}
+html,body{background:#06080b!important}
+body{
+  position:relative;
+  isolation:isolate;
+  overflow-x:hidden;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:-25%;
+  z-index:-4;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 18% 18%,rgba(123,44,255,.14),transparent 25%),
+    radial-gradient(circle at 82% 30%,rgba(216,255,104,.075),transparent 23%),
+    radial-gradient(circle at 55% 88%,rgba(36,160,190,.09),transparent 27%),
+    linear-gradient(125deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:auto,auto,auto,38px 38px;
+  filter:saturate(1.08);
+  animation:v57Atmosphere 20s ease-in-out infinite alternate;
+}
+body:after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-3;
+  pointer-events:none;
+  opacity:.34;
+  background:
+    repeating-radial-gradient(circle at 20% 30%,transparent 0 44px,rgba(255,255,255,.025) 45px,transparent 46px 92px),
+    linear-gradient(115deg,transparent 0 42%,rgba(216,255,104,.045) 50%,transparent 58%);
+  animation:v57Contours 28s linear infinite;
+  mix-blend-mode:screen;
+}
+@keyframes v57Atmosphere{
+  0%{transform:translate3d(-1.5%,-1%,0) scale(1)}
+  50%{transform:translate3d(1%,1.5%,0) scale(1.035)}
+  100%{transform:translate3d(-.5%,2%,0) scale(1.02)}
+}
+@keyframes v57Contours{
+  from{transform:rotate(0deg) scale(1)}
+  to{transform:rotate(360deg) scale(1.04)}
+}
+
+/* Living contours — restrained, premium, never cartoonish */
+.card,.stat,.set,.category-card,.practice-card,.tool-card,.level-card,.course-level,
+.course-lesson,.course-stage-card,.lesson-detail,.wordcard,.builder,.category-study,
+.speed-mode-card,.daily-block,.daily-extra,.boost-work,.note,.tip,.skill,.v33-today-panel,
+.profile-sheet,.voice-sheet,.speed-panel,.tabs{
+  position:relative;
+  border-color:var(--live-line)!important;
+}
+.card:after,.stat:after,.set:after,.category-card:after,.practice-card:after,
+.tool-card:after,.level-card:after,.course-level:after,.course-lesson:after,
+.course-stage-card:after,.lesson-detail:after,.wordcard:after,.builder:after,
+.category-study:after,.speed-mode-card:after,.daily-block:after,.daily-extra:after,
+.boost-work:after,.note:after,.tip:after,.skill:after{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius:inherit;
+  pointer-events:none;
+  border:1px solid transparent;
+  background:linear-gradient(115deg,rgba(216,255,104,.32),transparent 28%,transparent 68%,rgba(123,44,255,.22)) border-box;
+  -webkit-mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  opacity:.32;
+  animation:v57EdgePulse 5.5s ease-in-out infinite;
+}
+@keyframes v57EdgePulse{
+  0%,100%{opacity:.18;filter:brightness(.9)}
+  50%{opacity:.62;filter:brightness(1.12)}
+}
+.card:hover,.set:hover,.category-card:hover,.level-card:hover,.course-lesson:hover,
+.course-stage-card:hover,.daily-block:hover{
+  border-color:var(--live-line-strong)!important;
+  box-shadow:0 20px 65px rgba(0,0,0,.34),0 0 0 1px rgba(216,255,104,.045);
+}
+.iconbtn,.profile-open,.tab,.primary,.secondary,.mini,.explain-btn,.training-back,.boost-x,
+.choice,.word-chip,.match-tile,.boost-choice,.daily-block,.course-lesson button{
+  border-color:rgba(255,255,255,.12)!important;
+  position:relative;
+}
+.iconbtn:before,.profile-open:before,.tab:before,.primary:before,.secondary:before,
+.mini:before,.explain-btn:before,.training-back:before,.boost-x:before,.choice:before,
+.word-chip:before,.match-tile:before,.boost-choice:before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius:inherit;
+  pointer-events:none;
+  border:1px solid rgba(216,255,104,.18);
+  opacity:.2;
+  transition:opacity .35s ease;
+}
+.iconbtn:hover:before,.profile-open:hover:before,.tab:hover:before,.primary:hover:before,
+.secondary:hover:before,.mini:hover:before,.explain-btn:hover:before,.choice:hover:before,
+.word-chip:hover:before,.match-tile:hover:before,.boost-choice:hover:before{opacity:.75}
+
+/* More mature startup CTA */
+.startupEnd{
+  padding-bottom:calc(30px + env(safe-area-inset-bottom));
+  background:linear-gradient(to top,rgba(3,4,7,.56),transparent 42%);
+}
+.startupStart{
+  width:min(84vw,360px)!important;
+  min-width:0!important;
+  height:58px!important;
+  min-height:58px!important;
+  border-radius:14px!important;
+  padding:0 26px!important;
+  background:rgba(8,9,13,.72)!important;
+  color:#f5f7f8!important;
+  font-size:13px!important;
+  font-weight:850!important;
+  letter-spacing:.24em!important;
+  backdrop-filter:blur(16px)!important;
+  -webkit-backdrop-filter:blur(16px)!important;
+  box-shadow:0 20px 60px rgba(0,0,0,.52),inset 0 1px 0 rgba(255,255,255,.12)!important;
+}
+.startupStart:after{
+  background:linear-gradient(100deg,transparent 20%,rgba(216,255,104,.16) 48%,rgba(123,44,255,.24) 52%,transparent 80%)!important;
+  animation:v57StartSweep 3.6s ease-in-out infinite!important;
+}
+@keyframes v57StartSweep{
+  0%,25%{transform:translateX(-130%)}
+  70%,100%{transform:translateX(130%)}
+}
+
+/* Bottom navigation fills the entire width */
+.tabs{
+  width:100%;
+  padding:9px 8px calc(9px + env(safe-area-inset-bottom))!important;
+  background:rgba(5,7,10,.82)!important;
+  border-top:1px solid rgba(216,255,104,.13)!important;
+}
+.tabbar{
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  gap:7px!important;
+}
+.tab{
+  width:100%;
+  min-width:0;
+  padding:10px 4px!important;
+  border-radius:15px!important;
+  color:#78818b;
+}
+.tab.active{
+  color:var(--accent)!important;
+  background:linear-gradient(180deg,rgba(216,255,104,.09),rgba(216,255,104,.025))!important;
+  box-shadow:inset 0 0 0 1px rgba(216,255,104,.12),0 0 24px rgba(216,255,104,.045);
+}
+.tab .ico{font-size:18px!important}
+@media(max-width:430px){
+  .tab{font-size:9px!important;padding:9px 2px!important}
+  .tab .ico{font-size:17px!important}
+}
+</style>
 </head>
 <body data-view="home">
 <div id="startupSplash" aria-label="English startup screen">
@@ -331,7 +502,7 @@ html{scroll-behavior:smooth}body{overflow-x:hidden;background:radial-gradient(ci
     <source src="english-intro.mp4" type="video/mp4">
   </video>
   <div class="startupEnd">
-    <button class="startupStart" type="button" onclick="startEnglishApp()">START</button>
+    <button class="startupStart" type="button" onclick="startEnglishApp()">НАЧАТЬ ОБУЧЕНИЕ</button>
   </div>
 </div>
 
