@@ -2088,28 +2088,7 @@ function trainerVoiceSupported(){return 'speechSynthesis' in window && typeof Sp
 })();
 </script>
 
-<script>
-(function(){
-  const splash=document.getElementById('startupSplash');
-  const video=document.getElementById('startupVideo');
-  let started=false;
-  function showEnd(){if(!splash||started)return;splash.classList.add('is-ended');}
-  window.startEnglishApp=function(){
-    if(started)return; started=true;
-    try{video.pause()}catch(e){}
-    splash.classList.remove('is-ended');
-    splash.classList.add('is-hidden');
-    setTimeout(()=>splash.remove(),700);
-    try{window.scrollTo({top:0,behavior:'instant'})}catch(e){window.scrollTo(0,0)}
-  };
-  if(video){
-    video.addEventListener('ended',showEnd);
-    video.addEventListener('error',showEnd);
-    const p=video.play(); if(p&&p.catch)p.catch(showEnd);
-  }else showEnd();
-  setTimeout(()=>{if(!started&&!splash.classList.contains('is-ended'))showEnd()},12000);
-})();
-</script>
+
 
 <script id="v29-persistence-and-course-cleanup">
 (function(){
@@ -2884,7 +2863,38 @@ try{const old=JSON.parse(localStorage.getItem('english_course_active_v4')||local
 // Fix legacy white lesson preview and make the initial splash deterministic.
 document.querySelectorAll('.pm-lesson-overlay,.pm-complete').forEach(x=>x.remove());
 const splash=$('startupSplash'),video=$('startupVideo');
-if(splash&&video){let revealed=false;let revealTimer=null;const reveal=()=>{if(revealed)return;revealed=true;if(revealTimer)clearTimeout(revealTimer);splash.classList.add('is-ended','v52-focus');};const hide=()=>{video.pause();video.currentTime=0;splash.classList.remove('is-ended');splash.classList.add('is-hidden');splash.setAttribute('aria-hidden','true')};window.startEnglishApp=hide;video.addEventListener('ended',reveal,{once:true});video.addEventListener('error',()=>setTimeout(reveal,250),{once:true});video.addEventListener('loadedmetadata',()=>{const ms=Math.max(2500,Math.ceil((video.duration||6)*1000)+450);revealTimer=setTimeout(()=>{if(!revealed)reveal()},ms)});revealTimer=setTimeout(()=>{if(!revealed)reveal()},9000);}
+if(splash&&video){
+  let revealed=false,started=false,hidden=false,revealTimer=null;
+  const reveal=()=>{
+    if(revealed||hidden)return;
+    revealed=true;
+    if(revealTimer)clearTimeout(revealTimer);
+    splash.classList.add('is-ended','v52-focus');
+  };
+  const hide=()=>{
+    if(hidden)return;
+    hidden=true;
+    if(revealTimer)clearTimeout(revealTimer);
+    try{video.pause();}catch(e){}
+    try{video.currentTime=video.duration||0;}catch(e){}
+    splash.classList.remove('is-ended');
+    splash.classList.add('is-hidden');
+    splash.setAttribute('aria-hidden','true');
+    setTimeout(()=>{try{splash.remove()}catch(e){}},1100);
+    try{window.scrollTo({top:0,behavior:'instant'})}catch(e){window.scrollTo(0,0)}
+  };
+  window.startEnglishApp=hide;
+  video.addEventListener('ended',reveal,{once:true});
+  video.addEventListener('error',()=>setTimeout(reveal,250),{once:true});
+  video.addEventListener('loadedmetadata',()=>{
+    if(started)return;
+    const duration=Number.isFinite(video.duration)&&video.duration>0?video.duration:6;
+    revealTimer=setTimeout(()=>{if(!revealed&&!hidden)reveal()},Math.max(2500,Math.ceil(duration*1000)+450));
+    started=true;
+    try{const p=video.play();if(p&&p.catch)p.catch(()=>reveal())}catch(e){reveal()}
+  },{once:true});
+  revealTimer=setTimeout(()=>{if(!revealed&&!hidden)reveal()},10000);
+}
 // Always render the course once so it cannot open empty even if a legacy renderer throws.
 setTimeout(()=>{try{renderCurriculum()}catch(e){console.error('v52 curriculum',e)}},0);
 })();
