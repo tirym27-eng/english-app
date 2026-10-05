@@ -498,7 +498,7 @@ body:after{
 </head>
 <body data-view="home">
 <div id="startupSplash" aria-label="English startup screen">
-  <video id="startupVideo" muted playsinline preload="auto" autoplay webkit-playsinline>
+  <video id="startupVideo" muted playsinline preload="auto" webkit-playsinline>
     <source src="english-intro.mp4" type="video/mp4">
   </video>
   <div class="startupEnd">
@@ -2884,7 +2884,7 @@ try{const old=JSON.parse(localStorage.getItem('english_course_active_v4')||local
 // Fix legacy white lesson preview and make the initial splash deterministic.
 document.querySelectorAll('.pm-lesson-overlay,.pm-complete').forEach(x=>x.remove());
 const splash=$('startupSplash'),video=$('startupVideo');
-if(splash&&video){let revealed=false;let revealTimer=null;const reveal=()=>{if(revealed)return;revealed=true;if(revealTimer)clearTimeout(revealTimer);splash.classList.add('is-ended','v52-focus');};const hide=()=>{video.pause();video.currentTime=0;splash.classList.remove('is-ended');splash.classList.add('is-hidden');splash.setAttribute('aria-hidden','true')};window.startEnglishApp=hide;video.addEventListener('ended',reveal,{once:true});video.addEventListener('error',()=>setTimeout(reveal,250),{once:true});video.addEventListener('loadedmetadata',()=>{const ms=Math.max(2500,Math.ceil((video.duration||6)*1000)+450);revealTimer=setTimeout(()=>{if(!revealed)reveal()},ms)});revealTimer=setTimeout(()=>{if(!revealed)reveal()},9000);video.play().catch(()=>{});}
+if(splash&&video){let revealed=false;let revealTimer=null;const reveal=()=>{if(revealed)return;revealed=true;if(revealTimer)clearTimeout(revealTimer);splash.classList.add('is-ended','v52-focus');};const hide=()=>{video.pause();video.currentTime=0;splash.classList.remove('is-ended');splash.classList.add('is-hidden');splash.setAttribute('aria-hidden','true')};window.startEnglishApp=hide;video.addEventListener('ended',reveal,{once:true});video.addEventListener('error',()=>setTimeout(reveal,250),{once:true});video.addEventListener('loadedmetadata',()=>{const ms=Math.max(2500,Math.ceil((video.duration||6)*1000)+450);revealTimer=setTimeout(()=>{if(!revealed)reveal()},ms)});revealTimer=setTimeout(()=>{if(!revealed)reveal()},9000);}
 // Always render the course once so it cannot open empty even if a legacy renderer throws.
 setTimeout(()=>{try{renderCurriculum()}catch(e){console.error('v52 curriculum',e)}},0);
 })();
